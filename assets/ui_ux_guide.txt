@@ -1,0 +1,25 @@
+UI/UX Guidelines for E-Shop Checkout
+
+1. Validation & Error States
+- Form validation errors must be displayed as inline text directly under the field.
+- Validation error text must be in RED (#f97373).
+- If the discount code is invalid, show an inline error message under the discount input.
+- If the payment method is invalid (e.g., PayPal with low order value), show an inline error near the Pay button.
+
+2. Buttons & Primary Actions
+- The "Pay Now" button must be GREEN (#22c55e) with white or dark text.
+- Secondary actions such as "Apply" for the discount code can use neutral gray styling.
+
+3. Layout & Structure
+- The page is a single-column layout with a two-column content grid:
+  - Left: Cart items + discount + totals.
+  - Right: User details, shipping options, payment options, and Pay button.
+- Inline labels should be placed above their corresponding input fields.
+
+4. Messaging
+- On successful payment, the message "Payment Successful!" must be clearly visible.
+- On failure, show meaningful error messages instead of generic "Error" alerts.
+
+5. Accessibility
+- All interactive elements should have clear labels.
+- Radio buttons for shipping and payment must be grouped and labelled appropriately.

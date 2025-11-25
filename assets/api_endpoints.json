@@ -1,0 +1,27 @@
+{
+  "POST /apply_coupon": {
+    "description": "Apply a discount code to the current cart",
+    "request": {
+      "code": "string"
+    },
+    "response": {
+      "is_valid": "boolean",
+      "discount_percent": "number"
+    }
+  },
+  "POST /submit_order": {
+    "description": "Submit the final order",
+    "request": {
+      "name": "string",
+      "email": "string",
+      "address": "string",
+      "items": "list",
+      "shipping_method": "string",
+      "payment_method": "string"
+    },
+    "response": {
+      "status": "string",
+      "order_id": "string"
+    }
+  }
+}

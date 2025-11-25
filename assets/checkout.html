@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Shop Checkout</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: #111827;
+            color: #e5e7eb;
+            margin: 0;
+            padding: 2rem;
+        }
+        h1, h2 {
+            color: #f9fafb;
+        }
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            background: #1f2937;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr;
+            gap: 1.5rem;
+        }
+        .card {
+            background: #111827;
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            border: 1px solid #374151;
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="number"] {
+            width: 100%;
+            padding: 0.4rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid #4b5563;
+            background: #020617;
+            color: #e5e7eb;
+            margin-top: 0.25rem;
+        }
+        .error {
+            font-size: 0.8rem;
+            color: #f97373; /* red text per UI guide */
+        }
+        .btn {
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 0.9rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-primary {
+            background: #22c55e; /* 'Pay Now' button should be green */
+            color: #022c22;
+        }
+        .btn-secondary {
+            background: #4b5563;
+            color: #e5e7eb;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.25rem 0;
+        }
+        .radio-group {
+            margin-top: 0.5rem;
+        }
+        .radio-group label {
+            display: inline-block;
+            margin-right: 1.5rem;
+        }
+        #payment-message {
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>E-Shop Checkout</h1>
+
+    <div class="grid">
+        <!-- Left: Cart & discount -->
+        <div>
+            <div class="card">
+                <h2>Cart</h2>
+
+                <div class="summary-row">
+                    <span>Wireless Mouse</span>
+                    <span>$20 x
+                        <input id="item1-qty" type="number" min="0" value="1" style="width: 60px;">
+                    </span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Mechanical Keyboard</span>
+                    <span>$60 x
+                        <input id="item2-qty" type="number" min="0" value="1" style="width: 60px;">
+                    </span>
+                </div>
+
+                <div class="summary-row">
+                    <span>USB-C Cable</span>
+                    <span>$10 x
+                        <input id="item3-qty" type="number" min="0" value="0" style="width: 60px;">
+                    </span>
+                </div>
+
+                <hr>
+
+                <label for="discount-code">Discount Code</label>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <input id="discount-code" type="text" placeholder="Enter discount, e.g. SAVE15">
+                    <button id="apply-discount-btn" class="btn btn-secondary">Apply</button>
+                </div>
+                <div id="discount-error" class="error"></div>
+
+                <hr>
+                <p class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal-amount">$80.00</span>
+                </p>
+                <p class="summary-row">
+                    <span>Shipping:</span>
+                    <span id="shipping-amount">$0.00</span>
+                </p>
+                <p class="summary-row">
+                    <strong>Total:</strong>
+                    <strong id="total-amount">$80.00</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- Right: User details & payment -->
+        <div>
+            <div class="card">
+                <h2>User Details</h2>
+                <label for="name">Full Name *</label>
+                <input id="name" type="text" placeholder="Jane Doe">
+                <div id="name-error" class="error"></div>
+
+                <label for="email">Email *</label>
+                <input id="email" type="email" placeholder="jane@example.com">
+                <div id="email-error" class="error"></div>
+
+                <label for="address">Address *</label>
+                <input id="address" type="text" placeholder="123 Main St, City">
+                <div id="address-error" class="error"></div>
+            </div>
+
+            <div class="card">
+                <h2>Shipping Method</h2>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="shipping" id="shipping-standard" value="standard" checked>
+                        Standard (Free)
+                    </label>
+                    <label>
+                        <input type="radio" name="shipping" id="shipping-express" value="express">
+                        Express ($10)
+                    </label>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Payment Method</h2>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="payment" id="payment-card" value="card" checked>
+                        Credit Card
+                    </label>
+                    <label>
+                        <input type="radio" name="payment" id="payment-paypal" value="paypal">
+                        PayPal
+                    </label>
+                </div>
+            </div>
+
+            <div class="card">
+                <button id="pay-now-btn" class="btn btn-primary" style="width: 100%;">Pay Now</button>
+                <div id="payment-message"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const PRICES = {
+        item1: 20,
+        item2: 60,
+        item3: 10,
+    };
+
+    let discountPercent = 0;
+
+    function calculateSubtotal() {
+        const q1 = parseInt(document.getElementById('item1-qty').value || "0");
+        const q2 = parseInt(document.getElementById('item2-qty').value || "0");
+        const q3 = parseInt(document.getElementById('item3-qty').value || "0");
+
+        return q1 * PRICES.item1 + q2 * PRICES.item2 + q3 * PRICES.item3;
+    }
+
+    function calculateShipping() {
+        const express = document.getElementById('shipping-express').checked;
+        return express ? 10 : 0;
+    }
+
+    function updateTotals() {
+        const subtotal = calculateSubtotal();
+        const shipping = calculateShipping();
+        let total = subtotal + shipping;
+
+        if (discountPercent > 0) {
+            total = total * (1 - discountPercent / 100.0);
+        }
+
+        document.getElementById('subtotal-amount').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('shipping-amount').textContent = `$${shipping.toFixed(2)}`;
+        document.getElementById('total-amount').textContent = `$${total.toFixed(2)}`;
+    }
+
+    document.getElementById('item1-qty').addEventListener('change', updateTotals);
+    document.getElementById('item2-qty').addEventListener('change', updateTotals);
+    document.getElementById('item3-qty').addEventListener('change', updateTotals);
+    document.getElementById('shipping-standard').addEventListener('change', updateTotals);
+    document.getElementById('shipping-express').addEventListener('change', updateTotals);
+
+    document.getElementById('apply-discount-btn').addEventListener('click', () => {
+        const code = document.getElementById('discount-code').value.trim();
+        const error = document.getElementById('discount-error');
+        error.textContent = '';
+
+        if (!code) {
+            discountPercent = 0;
+            error.textContent = 'Please enter a discount code.';
+        } else if (code === 'SAVE15') {
+            discountPercent = 15;
+        } else {
+            discountPercent = 0;
+            error.textContent = 'Invalid discount code.';
+        }
+        updateTotals();
+    });
+
+    document.getElementById('pay-now-btn').addEventListener('click', () => {
+        let valid = true;
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const address = document.getElementById('address').value.trim();
+
+        document.getElementById('name-error').textContent = '';
+        document.getElementById('email-error').textContent = '';
+        document.getElementById('address-error').textContent = '';
+
+        if (!name) {
+            valid = false;
+            document.getElementById('name-error').textContent = 'This field is required.';
+        }
+
+        if (!email || !email.includes('@')) {
+            valid = false;
+            document.getElementById('email-error').textContent = 'Please enter a valid email address.';
+        }
+
+        if (!address) {
+            valid = false;
+            document.getElementById('address-error').textContent = 'This field is required.';
+        }
+
+        const subtotal = calculateSubtotal();
+        const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+        const message = document.getElementById('payment-message');
+
+        if (paymentMethod === 'paypal' && subtotal < 10) {
+            valid = false;
+            message.textContent = 'PayPal is only available for orders above $10.';
+            message.style.color = '#f97373';
+            return;
+        }
+
+        if (!valid) {
+            message.textContent = 'Please fix the validation errors above.';
+            message.style.color = '#f97373';
+            return;
+        }
+
+        message.textContent = 'Payment Successful!';
+        message.style.color = '#22c55e';
+    });
+
+    // initial calculation
+    updateTotals();
+</script>
+</body>
+</html>
